@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="help_info_text_size">20sp</dimen>
+    <dimen name="film_title_title_margin_top">20dp</dimen>
+    <dimen name="film_title_title_text_size">20sp</dimen>
+    <dimen name="film_title_input_field_text_size">20sp</dimen>
+    <dimen name="film_title_type_title_margin_top">20dp</dimen>
+    <dimen name="film_title_type_title_text_size">20sp</dimen>
+    <dimen name="film_title_type_list_width">0dp</dimen>
+    <dimen name="film_title_type_list_text_size">20sp</dimen>
+    <dimen name="film_genre_title_margin_top">20dp</dimen>
+    <dimen name="film_genre_title_text_size">20sp</dimen>
+    <dimen name="film_genre_list_width">0dp</dimen>
+    <dimen name="film_genre_list_text_size">20sp</dimen>
+</resources>

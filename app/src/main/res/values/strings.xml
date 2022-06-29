@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">FilmFilmFilm</string>
+    <string name="app_name">Фильм! Фильм! Фильм!</string>
+    <string name="help_info_text">Для поиска фильма\nзаполните одно\nили несколько полей</string>
+    <string name="film_title_title_text">Укажите название фильма,\nесли знаете:</string>
+    <string name="film_title_input_field_hint">Название фильма</string>
+    <string name="film_title_type_title_text">Выберите тип фильма,\nесли знаете:</string>
+    <string name="film_genre_title_text">Выберите жанр фильма,\nесли знаете:</string>
 </resources>
