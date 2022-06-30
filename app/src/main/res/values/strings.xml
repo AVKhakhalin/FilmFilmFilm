@@ -31,4 +31,6 @@
     <string name="content_footer_film_overview_text_tools_text">The surviving Resistance faces the First Order once again as the journey of Rey, Finn and Poe Dameron continues. With the power and knowledge of generations behind them, the final battle begins.</string>
     <string name="content_footer_film_overview_title_text">Overview</string>
     <string name="content_footer_film_stars_list_title_text">Top Billed Cast</string>
+    <string name="star_character_tools_text">Luke Skywalker</string>
+    <string name="star_name_tools_text">Mark Hamill</string>
 </resources>

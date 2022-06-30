@@ -21,6 +21,8 @@
     <dimen name="half_screen">0.5</dimen>
     <dimen name="one_third_screen">0.34</dimen>
     <dimen name="one_quarter_screen">0.25</dimen>
+    <dimen name="horizontal_part_screen">0.3</dimen>
+    <dimen name="vertical_part_screen">0.4</dimen>
     <dimen name="zero_size">0dp</dimen>
     <dimen name="following_button_margin_end">40dp</dimen>
     <dimen name="content_start_top_film_image_margin">8dp</dimen>
@@ -111,4 +113,8 @@
     <dimen name="content_footer_film_overview_title_margin_start">16dp</dimen>
     <dimen name="content_footer_film_overview_title_margin_top">30dp</dimen>
     <dimen name="content_footer_film_overview_title_text_size">20sp</dimen>
+    <dimen name="star_character_margin_start">8dp</dimen>
+    <dimen name="star_character_text_size">15sp</dimen>
+    <dimen name="star_name_margin_start">8dp</dimen>
+    <dimen name="star_name_text_size">15sp</dimen>
 </resources>
