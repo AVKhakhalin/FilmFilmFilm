@@ -23,4 +23,12 @@
     <string name="footer_seventh_element_tools_text">7</string>
     <string name="footer_eighth_element_tools_text">8</string>
     <string name="footer_ninth_element_tools_text">9</string>
+    <string name="content_header_film_raiting_title_tools_text">User Score</string>
+    <string name="content_header_film_raiting_number_tools_text">94</string>
+    <string name="content_header_film_runtime_tools_text">2h 22m</string>
+    <string name="content_header_film_released_date_tools_text">Released: 19 Dec 2019</string>
+    <string name="content_header_film_genres_tools_text">Action, Adventure, Science Fiction</string>
+    <string name="content_footer_film_overview_text_tools_text">The surviving Resistance faces the First Order once again as the journey of Rey, Finn and Poe Dameron continues. With the power and knowledge of generations behind them, the final battle begins.</string>
+    <string name="content_footer_film_overview_title_text">Overview</string>
+    <string name="content_footer_film_stars_list_title_text">Top Billed Cast</string>
 </resources>

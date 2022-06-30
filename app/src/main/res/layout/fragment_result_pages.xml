@@ -7,7 +7,7 @@
     tools:context=".view.activity.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/header"
+        android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,13 +37,13 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content"
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_size"
-        app:layout_constraintBottom_toTopOf="@id/footer"
+        app:layout_constraintBottom_toTopOf="@id/footer_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header">
+        app:layout_constraintTop_toBottomOf="@id/header_container">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_half_screen_guideline"
@@ -83,23 +83,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                app:constraint_referenced_ids="content_start_top_film_raiting_number,content_start_top_film_raiting_circle"
+                app:constraint_referenced_ids="content_header_film_raiting_number,content_header_film_raiting_circle"
                 app:layout_constraintBottom_toBottomOf="@id/content_start_top_film_image"
                 app:layout_constraintStart_toStartOf="@id/content_start_top_film_image"
                 app:layout_constraintTop_toBottomOf="@id/content_start_top_film_image" />
 
             <TextView
-                android:id="@+id/content_start_top_film_raiting_number"
+                android:id="@+id/content_header_film_raiting_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/empty_text"
-                app:layout_constraintBottom_toBottomOf="@id/content_start_top_film_raiting_circle"
-                app:layout_constraintEnd_toEndOf="@id/content_start_top_film_raiting_circle"
-                app:layout_constraintStart_toStartOf="@id/content_start_top_film_raiting_circle"
-                app:layout_constraintTop_toTopOf="@id/content_start_top_film_raiting_circle" />
+                app:layout_constraintBottom_toBottomOf="@id/content_header_film_raiting_circle"
+                app:layout_constraintEnd_toEndOf="@id/content_header_film_raiting_circle"
+                app:layout_constraintStart_toStartOf="@id/content_header_film_raiting_circle"
+                app:layout_constraintTop_toTopOf="@id/content_header_film_raiting_circle" />
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/content_start_top_film_raiting_circle"
+                android:id="@+id/content_header_film_raiting_circle"
                 android:layout_width="@dimen/content_start_top_film_raiting_circle_width"
                 android:layout_height="@dimen/content_start_top_film_raiting_circle_height"
                 android:layout_marginStart="@dimen/content_start_top_film_raiting_circle_margin_start"
@@ -398,7 +398,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/footer"
+        android:id="@+id/footer_container"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
