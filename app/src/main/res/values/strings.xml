@@ -33,4 +33,5 @@
     <string name="content_footer_film_stars_list_title_text">Top Billed Cast</string>
     <string name="star_character_tools_text">Luke Skywalker</string>
     <string name="star_name_tools_text">Mark Hamill</string>
+    <string name="run_search_button_text">Найти</string>
 </resources>
