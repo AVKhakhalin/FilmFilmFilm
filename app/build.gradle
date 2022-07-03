@@ -110,7 +110,7 @@ dependencies {
     implementation Retrofit.gson
     implementation Retrofit.rxJava2
 //    implementation Retrofit.rxJava3 // одновременно с rxJava2 не включать
-    implementation Retrofit.interceptor
+    implementation Retrofit.interceptor // Версия интерсептора должна быть такой же как и версия okHttp
     implementation Retrofit.coroutinesAdapter
     // Room
     implementation Room.runtime

@@ -27,7 +27,7 @@ abstract class BaseViewModel<T: AppState>(
         viewModelCoroutineScope.coroutineContext.cancelChildren()
     }
 
-    abstract fun getData(title: String, titleType: String, genres: String)
+    abstract fun getData(filmTitle: String, filmTitleType: String, filmGenre: String)
 
     abstract fun handleError(error: Throwable)
 }

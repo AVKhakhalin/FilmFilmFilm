@@ -17,16 +17,23 @@ class MainViewModel(
     private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
     //endregion
 
-    override fun getData(title: String, titleType: String, genres: String) {
+    override fun getData(filmTitle: String, filmTitleType: String, filmGenre: String) {
+        // Сохранение данных о запросе в класс Settings
+        settings.filmTitle = filmTitle
+        settings.filmTitleType = filmTitleType
+        settings.filmGenre = filmGenre
+
         // Выполнение поиска
         _mutableLiveData.value = AppState.Loading(null)
         cancelJob()
-        viewModelCoroutineScope.launch { startInteractor(title, titleType, genres) }
+        viewModelCoroutineScope.launch {
+            startInteractor(filmTitle, filmTitleType, filmGenre)
+        }
     }
 
-    private suspend fun startInteractor(title: String, titleType: String, genres: String) =
+    private suspend fun startInteractor(filmTitle: String, filmTitleType: String, filmGenre: String) =
         withContext(Dispatchers.IO) {
-        _mutableLiveData.postValue(interactor.getData(title, titleType, genres))
+        _mutableLiveData.postValue(interactor.getData(filmTitle, filmTitleType, filmGenre))
     }
 
     override fun handleError(error: Throwable) {
