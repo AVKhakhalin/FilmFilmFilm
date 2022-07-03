@@ -1,4 +1,4 @@
-package com.imdb.film.kino.stars.animation.filmfilmfilm.view.activity
+package com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.requestinput
 
 import android.widget.Toast
 import com.imdb.film.kino.stars.animation.filmfilmfilm.R
@@ -9,7 +9,7 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.Repository
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.network.NetworkStatus
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.resources.ResourcesProvider
 
-class MainInteractor(
+class RequestInputFragmentInteractor(
     private val remoteRepository: Repository<DataModelGeneralFilmInfo>,
     private val resourcesProviderImpl: ResourcesProvider,
     private val networkStatus: NetworkStatus
