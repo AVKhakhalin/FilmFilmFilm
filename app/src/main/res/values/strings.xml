@@ -33,5 +33,53 @@
     <string name="content_footer_film_stars_list_title_text">Top Billed Cast</string>
     <string name="star_character_tools_text">Luke Skywalker</string>
     <string name="star_name_tools_text">Mark Hamill</string>
-    <string name="run_search_button_text">Найти</string>
+    <string name="run_search_button_text">Найти фильм(ы)</string>
+    <string name="help_needs_internet_connection">Для получения информации о фильмах, пожалуйста, установите связь с Интернетом</string>
+    <string name="error_needs_internet_connection">Нужно установить связь с Интернетом</string>
+
+    <string-array name="film_title_types_list">
+        <item>Не выбрано</item>
+        <item>Feature Film</item>
+        <item>TV Special</item>
+        <item>Short Film</item>
+        <item>Podcast Episode</item>
+        <item>TV Movie</item>
+        <item>Mini-Series</item>
+        <item>Video</item>
+        <item>TV Series</item>
+        <item>Documentary</item>
+        <item>TV Short</item>
+        <item>TV Episode</item>
+        <item>Podcast Series</item>
+    </string-array>
+
+    <string-array name="film_genres_list">
+        <item>Не выбрано</item>
+        <item>Action</item>
+        <item>Comedy</item>
+        <item>Family</item>
+        <item>History</item>
+        <item>Mystery</item>
+        <item>Sci-Fi</item>
+        <item>War</item>
+        <item>Adventure</item>
+        <item>Crime</item>
+        <item>Fantasy</item>
+        <item>Horror</item>
+        <item>News</item>
+        <item>Sport</item>
+        <item>Western</item>
+        <item>Animation</item>
+        <item>Documentary</item>
+        <item>Film-Noir</item>
+        <item>Reality-TV</item>
+        <item>Talk-Show</item>
+        <item>Biography</item>
+        <item>Drama</item>
+        <item>Game-Show</item>
+        <item>Musical</item>
+        <item>Romance</item>
+        <item>Thriller</item>
+    </string-array>
+
 </resources>

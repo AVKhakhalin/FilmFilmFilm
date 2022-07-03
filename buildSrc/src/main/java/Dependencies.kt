@@ -60,7 +60,6 @@ object Versions {
     const val retrofitGson = "2.7.1"
     const val retrofitRxjava2 = "2.4.0"
     const val retrofitRxjava3 = "2.9.0"
-    const val retrofitInterceptor = "3.12.1"
     const val retrofit2CoroutinesAdapter = "0.9.2"
     // OkHTTP
     const val okHTTP = "4.6.0"
@@ -157,7 +156,7 @@ object Retrofit {
     const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofitGson}"
     const val rxJava2 = "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofitRxjava2}"
     const val rxJava3 = "com.squareup.retrofit2:adapter-rxjava3:${Versions.retrofitRxjava3}"
-    const val interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.retrofitInterceptor}"
+    const val interceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHTTP}"
     const val coroutinesAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.retrofit2CoroutinesAdapter}"
 }
 

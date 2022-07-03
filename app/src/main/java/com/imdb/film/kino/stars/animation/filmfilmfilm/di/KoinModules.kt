@@ -1,6 +1,6 @@
 package com.imdb.film.kino.stars.animation.filmfilmfilm.di
 
-import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.DataModel
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.DataModelGeneralFilmInfo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.Repository
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.RepositoryImplementation
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.datasource.RetrofitImplementation
@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 
 val application = module {
     // Удалённый сервер (API)
-    single<Repository<List<DataModel>>>(named(NAME_REMOTE)) {
+    single<Repository<DataModelGeneralFilmInfo>>(named(NAME_REMOTE)) {
         RepositoryImplementation(RetrofitImplementation())
     }
     // Локальное сохранение данных
