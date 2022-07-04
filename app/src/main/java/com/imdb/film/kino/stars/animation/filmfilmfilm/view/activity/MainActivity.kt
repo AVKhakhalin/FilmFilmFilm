@@ -1,7 +1,6 @@
 package com.imdb.film.kino.stars.animation.filmfilmfilm.view.activity
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
@@ -9,7 +8,6 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.R
 import com.imdb.film.kino.stars.animation.filmfilmfilm.databinding.ActivityMainBinding
 import com.imdb.film.kino.stars.animation.filmfilmfilm.navigator.BackButtonListener
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.MAIN_ACTIVITY_SCOPE
-import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.getStartElementOnPage
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.java.KoinJavaComponent.getKoin
@@ -48,6 +46,7 @@ class MainActivity: AppCompatActivity() {
             // Установка начального экрана приложения
             viewModel.router.navigateTo(viewModel.screens.requestInputScreen())
         }
+
         // Отображение содержимого окна
         setContentView(binding.root)
     }

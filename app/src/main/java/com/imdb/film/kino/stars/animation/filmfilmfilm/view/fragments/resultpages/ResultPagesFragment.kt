@@ -1,14 +1,16 @@
 package com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultpages
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.imdb.film.kino.stars.animation.filmfilmfilm.databinding.FragmentResultPagesBinding
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.base.BaseFragment
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.AppState
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.GeneralFilmInfo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.settings.Settings
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.*
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.imageloader.GlideImageLoaderImpl
@@ -41,6 +43,15 @@ class ResultPagesFragment:
     private lateinit var filmsRaitingsNumbers: List<TextView>
     // GlideImageLoaderImpl
     private val glideImageLoaderImpl: GlideImageLoaderImpl = getKoin().get()
+    // Контейнеры с найденными фильмами
+    private lateinit var filmsResults: List<ConstraintLayout>
+    // Элементы управления пагинацией
+    private lateinit var startButton: Button
+    private lateinit var previousButton: Button
+    private lateinit var followingButton: Button
+    private lateinit var endButton: Button
+    private lateinit var buttonsWithNumbers: List<TextView>
+
     // newInstance для данного класса
     companion object {
         fun newInstance(): ResultPagesFragment = ResultPagesFragment()
@@ -79,6 +90,10 @@ class ResultPagesFragment:
         initFilmsDates()
         // Инициализация рейтингов найденных фильмов
         initFilmsRaitings()
+        // Инициализация контейнеров с найденными фильмами
+        initFilmsResults()
+        // Инициализация элементов управления пагинацией
+        initPaginationElements()
     }
 
     // Инициализация ViewModel
@@ -94,36 +109,8 @@ class ResultPagesFragment:
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.SuccessGeneralFilmInfo -> {
-                progressBarsList.forEach { it.visibility = View.INVISIBLE }
-//                Toast.makeText(requireContext(), "${appState.generalFilmInfoList?.size}\n" +
-//                        "${appState.generalFilmInfoList?.get(0)?.filmTitle}\n" +
-//                        "${appState.generalFilmInfoList?.get(1)?.filmTitle}\n" +
-//                        "${appState.generalFilmInfoList?.get(2)?.filmTitle}\n" +
-//                        "${appState.generalFilmInfoList?.get(3)?.filmTitle}" +
-//                        "", Toast.LENGTH_SHORT).show()
-
                 appState.generalFilmInfoList?.let { generalFilmInfoList ->
-                    repeat(MAX_NUMBER_FILM_RESULTS_ON_SCREEN) {
-                        if (generalFilmInfoList.size >
-                            settings.pagingNumber.getStartElementOnPage() + it) {
-                            // Установка картинок на найденные фильмы
-                            val imageLink: String = "${generalFilmInfoList[settings.pagingNumber.
-                            getStartElementOnPage() + it].filmImageLink}"
-                            glideImageLoaderImpl.loadInto(imageLink, imageViewList[it])
-                            // Установка названий найденных фильмов
-                            filmsTitles[it].text = "${generalFilmInfoList[settings.pagingNumber.
-                            getStartElementOnPage() + it].filmTitle}"
-                            // Установка дат найденных фильмов
-                            filmsDates[it].text = "${generalFilmInfoList[settings.pagingNumber.
-                            getStartElementOnPage() + it].filmData}".deleteBrackets()
-                            // Установка рейтингов найденных фильмов
-                            val raiting: Int = "${generalFilmInfoList[settings.pagingNumber.
-                                getStartElementOnPage() + it].filmRating}".convertToProgress()
-                            filmsRaitings[it].progress = raiting
-                            filmsRaitings[it].setIndicatorColor(raiting.convertToColor())
-                            filmsRaitingsNumbers[it].text = "$raiting"
-                        }
-                    }
+                    showFoundedFilmsList(generalFilmInfoList)
                 }
             }
             is AppState.Loading -> {
@@ -201,4 +188,201 @@ class ResultPagesFragment:
         )
     }
 
+    // Инициализация контейнеров с найденными фильмами
+    private fun initFilmsResults() {
+        filmsResults = listOf(
+            binding.contentStartTop,
+            binding.contentEndTop,
+            binding.contentStartBottom,
+            binding.contentEndBottom
+        )
+        repeat(MAX_NUMBER_FILM_RESULTS_ON_SCREEN) { index->
+            filmsResults[index].setOnClickListener {
+                val resultIndex: Int =
+                    settings.pagingNumber * MAX_NUMBER_FILM_RESULTS_ON_SCREEN + index
+                if (settings.advancedSearchResult.size > resultIndex)
+                    settings.idChoosedFilm = "${settings.advancedSearchResult[resultIndex].filmId}"
+            }
+        }
+    }
+
+    // Инициализация элементов управления пагинацией
+    @SuppressLint("SetTextI18n")
+    private fun initPaginationElements() {
+        buttonsWithNumbers = listOf(
+            binding.footerFirstElement,
+            binding.footerSecondElement,
+            binding.footerThirdElement,
+            binding.footerFourthElement,
+            binding.footerFifthElement,
+            binding.footerSixthElement,
+            binding.footerSeventhElement,
+            binding.footerEighthElement,
+            binding.footerNinthElement
+        )
+        buttonsWithNumbers[0].textSize = TEXT_SIZE_MARKED_NUMBER
+        val middleIndex: Int = buttonsWithNumbers.size / 2
+        val maxIndex: Int = settings.advancedSearchResult.size /
+                MAX_NUMBER_FILM_RESULTS_ON_SCREEN
+        buttonsWithNumbers.forEachIndexed { index, currentButton->
+            currentButton.setOnClickListener {
+                buttonsWithNumbers.forEach { numberButton->
+                    numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                }
+
+                if (index < middleIndex) {
+                    if (settings.pagingNumber <= middleIndex) {
+                        settings.pagingNumber = index
+                        buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                            numberButton.text = "${correctingIndex + 1}"
+                        }
+                        currentButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                    } else {
+                        settings.pagingNumber -= middleIndex - index
+                        if (settings.pagingNumber > middleIndex) {
+                            buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                                numberButton.text =
+                                    "${settings.pagingNumber - middleIndex + correctingIndex}"
+                                if (correctingIndex == middleIndex)
+                                    numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                            }
+                        } else {
+                            buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                                numberButton.text = "${correctingIndex + 1}"
+                                if (correctingIndex == middleIndex)
+                                    numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                            }
+                        }
+                    }
+                } else if (index == middleIndex) {
+                    settings.pagingNumber = index
+                    currentButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                } else if (index > middleIndex) {
+                    settings.pagingNumber = currentButton.text.toString().toInt() - 1
+                    buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                        if (maxIndex - settings.pagingNumber > middleIndex ) {
+                            numberButton.text =
+                                "${settings.pagingNumber + 1 - middleIndex + correctingIndex}"
+                            if (correctingIndex == middleIndex)
+                                numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        } else {
+                            if (correctingIndex == index)
+                                numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        }
+                    }
+                }
+                // Обновление списка найденных фильмов
+                showFoundedFilmsList(settings.advancedSearchResult)
+            }
+        }
+
+        startButton = binding.footerPreviousStartButton
+        startButton.setOnClickListener {
+            if (settings.pagingNumber != 0) {
+                settings.pagingNumber = 0
+                showFoundedFilmsList(settings.advancedSearchResult)
+                buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                    numberButton.text = "${correctingIndex + 1}"
+                    if (correctingIndex != 0) numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                }
+                buttonsWithNumbers[0].textSize = TEXT_SIZE_MARKED_NUMBER
+            }
+        }
+        previousButton = binding.footerPreviousButton
+        previousButton.setOnClickListener {
+            if (settings.pagingNumber > 0) {
+                settings.pagingNumber--
+                showFoundedFilmsList(settings.advancedSearchResult)
+                buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                    if (settings.pagingNumber >= middleIndex) {
+                        val curNumberValue: Int = numberButton.text.toString().toInt()
+                        if (curNumberValue > 1) numberButton.text = "${curNumberValue - 1}"
+                        if (correctingIndex == middleIndex)
+                            numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        else numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                    } else {
+                        if (correctingIndex == settings.pagingNumber)
+                            numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        else numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                    }
+                }
+            }
+        }
+        followingButton = binding.footerFollowingButton
+        followingButton.setOnClickListener {
+            if (settings.pagingNumber + 1 <= maxIndex) {
+                settings.pagingNumber++
+                showFoundedFilmsList(settings.advancedSearchResult)
+                buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                    if (settings.pagingNumber <= maxIndex - middleIndex) {
+                        val curNumberValue: Int = numberButton.text.toString().toInt()
+                        if (curNumberValue < settings.advancedSearchResult.size /
+                            MAX_NUMBER_FILM_RESULTS_ON_SCREEN)
+                                numberButton.text = "${curNumberValue + 1}"
+                        if (correctingIndex == middleIndex)
+                            numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        else numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                    } else {
+                        if (correctingIndex ==
+                            buttonsWithNumbers.size - 1 - maxIndex + settings.pagingNumber)
+                            numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                        else numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                    }
+                }
+            }
+        }
+        endButton = binding.footerFollowingEndButton
+        endButton.setOnClickListener {
+            if (settings.pagingNumber !=
+                settings.advancedSearchResult.size / MAX_NUMBER_FILM_RESULTS_ON_SCREEN) {
+                settings.pagingNumber =
+                    settings.advancedSearchResult.size / MAX_NUMBER_FILM_RESULTS_ON_SCREEN
+                showFoundedFilmsList(settings.advancedSearchResult)
+                buttonsWithNumbers.forEachIndexed { correctingIndex, numberButton ->
+                    numberButton.text =
+                        "${settings.pagingNumber - buttonsWithNumbers.size + 1 + correctingIndex}"
+                    if (correctingIndex != buttonsWithNumbers.size - 1)
+                        numberButton.textSize = TEXT_SIZE_NOT_MARKED_NUMBER
+                    else numberButton.textSize = TEXT_SIZE_MARKED_NUMBER
+                }
+            }
+        }
+    }
+
+    // Отображение списка найденных фильмов
+    private fun showFoundedFilmsList(generalFilmInfoList: List<GeneralFilmInfo>) {
+        progressBarsList.forEach { it.visibility = View.VISIBLE }
+        // Скрытие контейнеров для вставки данных о фильмах
+        filmsResults.forEach { it.visibility = View.INVISIBLE }
+        repeat(MAX_NUMBER_FILM_RESULTS_ON_SCREEN) {
+            if (generalFilmInfoList.size >
+                settings.pagingNumber.getStartElementOnPage() + it) {
+                // Отображение контейнеров и скрытие прогресс-баров для вставки данных о фильмах
+                filmsResults[it].visibility = View.VISIBLE
+                progressBarsList[it].visibility = View.INVISIBLE
+                // Установка картинок на найденные фильмы
+                val imageLink: String = "${generalFilmInfoList[settings.pagingNumber.
+                getStartElementOnPage() + it].filmImageLink}"
+                glideImageLoaderImpl.loadInto(imageLink, imageViewList[it])
+                // Установка названий найденных фильмов
+                filmsTitles[it].text = "${generalFilmInfoList[settings.pagingNumber.
+                getStartElementOnPage() + it].filmTitle}"
+                // Установка дат найденных фильмов
+                filmsDates[it].text = "${generalFilmInfoList[settings.pagingNumber.
+                getStartElementOnPage() + it].filmData}".deleteBrackets()
+                // Установка рейтингов найденных фильмов
+                val raiting: Int = "${generalFilmInfoList[settings.pagingNumber.
+                getStartElementOnPage() + it].filmRating}".convertToProgress()
+                filmsRaitings[it].progress = raiting
+                filmsRaitings[it].setIndicatorColor(raiting.convertToColor())
+                filmsRaitingsNumbers[it].text = "$raiting"
+            }
+        }
+    }
+
+    // Отображение новых номеров внизу страницы,
+    // соответствующих текущему просматриваему списку найденных фильмов
+    private fun showPagingNumber() {
+
+    }
 }

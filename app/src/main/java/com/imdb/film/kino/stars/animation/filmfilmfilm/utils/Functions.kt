@@ -7,7 +7,7 @@ fun String.convertToInquiry(): String {
 }
 
 fun Int.getStartElementOnPage(): Int {
-    return this * 4
+    return this * MAX_NUMBER_FILM_RESULTS_ON_SCREEN
 }
 
 fun String.deleteBrackets(): String {
@@ -46,6 +46,5 @@ fun Int.convertToColor(): Int {
             blue = 87 - (this - 50) * 47 / 50
         }
     }
-
-    return Color.argb(255, red, green, blue)
+    return Color.argb(ALPHA_NOT_OPAQUE, red, green, blue)
 }

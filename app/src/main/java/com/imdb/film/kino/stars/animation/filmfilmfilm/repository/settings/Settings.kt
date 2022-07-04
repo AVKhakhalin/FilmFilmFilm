@@ -12,5 +12,7 @@ class Settings {
     var advancedSearchResult: MutableList<GeneralFilmInfo> = mutableListOf()
     // Номер позиции в пагинации по умолчанию
     var pagingNumber: Int = 0
+    // Id номер выбранного пользователем фильма
+    var idChoosedFilm: String = ""
     //endregion
 }
