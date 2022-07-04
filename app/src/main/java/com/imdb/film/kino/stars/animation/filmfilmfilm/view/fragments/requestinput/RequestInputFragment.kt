@@ -59,7 +59,6 @@ class RequestInputFragment:
         initViewModel()
         // Инициализация полей ввода исходной информации и кнопки для отправки запроса
         initFieldsAndSearchButton()
-
     }
 
     // Инициализация ViewModel
@@ -70,19 +69,22 @@ class RequestInputFragment:
         this.viewModel.subscribe().observe(viewLifecycleOwner) { renderData(it) }
     }
 
-    fun renderData(appState: AppState) {
+    private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                Toast.makeText(requireContext(), "Success:\n" +
-                        "Общее количество найденных фильмов: ${appState.data?.advancedSearchResult?.size}\n" +
-                        "${appState.data?.advancedSearchResult?.get(0)?.filmId}\n" +
-                        "${appState.data?.advancedSearchResult?.get(0)?.filmTitle}\n" +
-                        "${appState.data?.advancedSearchResult?.get(0)?.filmImageLink}\n" +
-                        "${appState.data?.advancedSearchResult?.get(0)?.filmRating}",
-                    Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "Success:\n" +
+//                        "Общее количество найденных фильмов: ${appState.data?.advancedSearchResult?.size}\n" +
+//                        "${appState.data?.advancedSearchResult?.get(0)?.filmId}\n" +
+//                        "${appState.data?.advancedSearchResult?.get(0)?.filmTitle}\n" +
+//                        "${appState.data?.advancedSearchResult?.get(0)?.filmImageLink}\n" +
+//                        "${appState.data?.advancedSearchResult?.get(0)?.filmRating}",
+//                    Toast.LENGTH_SHORT).show()
+                viewModel.router.navigateTo(viewModel.screens.resultPagesScreen())
             }
             is AppState.Loading -> {
-                Toast.makeText(requireContext(), "Загрузка", Toast.LENGTH_SHORT).show()
+                // Изменение внешнего вида фрагмента
+                binding.requestElementsGroup.visibility = View.INVISIBLE
+                binding.progressbar.visibility = View.VISIBLE
             }
             is AppState.Error -> {
                 Toast.makeText(requireContext(), appState.error.message, Toast.LENGTH_SHORT).show()

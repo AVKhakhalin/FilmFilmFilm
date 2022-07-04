@@ -14,7 +14,6 @@
     <dimen name="film_genre_list_text_size">20sp</dimen>
     <dimen name="back_button_width">48dp</dimen>
     <dimen name="back_button_height">48dp</dimen>
-    <dimen name="back_button_margin_start">40dp</dimen>
     <dimen name="search_button_width">48dp</dimen>
     <dimen name="search_button_height">48dp</dimen>
     <dimen name="search_button_margin_end">40dp</dimen>
@@ -24,7 +23,6 @@
     <dimen name="horizontal_part_screen">0.3</dimen>
     <dimen name="vertical_part_screen">0.4</dimen>
     <dimen name="zero_size">0dp</dimen>
-    <dimen name="following_button_margin_end">40dp</dimen>
     <dimen name="content_start_top_film_image_margin">8dp</dimen>
     <dimen name="content_start_top_film_raiting_circle_width">15dp</dimen>
     <dimen name="content_start_top_film_raiting_circle_height">15dp</dimen>
@@ -118,4 +116,15 @@
     <dimen name="star_name_margin_start">8dp</dimen>
     <dimen name="star_name_text_size">15sp</dimen>
     <dimen name="run_search_button_margin_top">20dp</dimen>
+    <dimen name="content_end_bottom_film_raiting_background_width">43dp</dimen>
+    <dimen name="content_end_bottom_film_raiting_background_height">43dp</dimen>
+    <dimen name="content_start_bottom_film_raiting_background_width">43dp</dimen>
+    <dimen name="content_start_bottom_film_raiting_background_height">43dp</dimen>
+    <dimen name="content_start_top_film_raiting_background_width">43dp</dimen>
+    <dimen name="content_start_top_film_raiting_background_height">43dp</dimen>
+    <dimen name="content_end_top_film_raiting_background_width">43dp</dimen>
+    <dimen name="content_end_top_film_raiting_background_height">43dp</dimen>
+    <dimen name="footer_previous_start_button_margin_start">20dp</dimen>
+    <dimen name="footer_previous_end_button_margin_end">20dp</dimen>
+    <dimen name="back_button_margin_start">40dp</dimen>
 </resources>

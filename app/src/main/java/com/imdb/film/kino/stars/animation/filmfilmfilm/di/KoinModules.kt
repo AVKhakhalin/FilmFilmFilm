@@ -10,10 +10,7 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.Repository
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.RepositoryImplementation
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.datasource.RetrofitImplementation
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.settings.Settings
-import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.CICERONE_NAME
-import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.MAIN_ACTIVITY_SCOPE
-import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.NAME_REMOTE
-import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.REQUEST_INPUT_FRAGMENT_SCOPE
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.*
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.imageloader.GlideImageLoaderImpl
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.network.NetworkStatus
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.resources.ResourcesProviderImpl
@@ -21,6 +18,8 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.themecolors.ThemeCo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.activity.MainViewModel
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.requestinput.RequestInputFragmentInteractor
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.requestinput.RequestInputFragmentViewModel
+import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultpages.ResultPagesFragmentInteractor
+import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultpages.ResultPagesFragmentViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -71,6 +70,20 @@ val screens = module {
         }
         viewModel {
             RequestInputFragmentViewModel(getScope(REQUEST_INPUT_FRAGMENT_SCOPE).get(), get())
+        }
+    }
+
+    // Scope для фрагмента со списком найденных фильмов для создания пагинации
+    scope(named(RESULT_PAGES_FRAGMENT_SCOPE)) {
+        scoped {
+            ResultPagesFragmentInteractor(
+                get(named(NAME_REMOTE)),
+                ResourcesProviderImpl(get()),
+                NetworkStatus(get())
+            )
+        }
+        viewModel {
+            ResultPagesFragmentViewModel(getScope(RESULT_PAGES_FRAGMENT_SCOPE).get(), get())
         }
     }
 }
