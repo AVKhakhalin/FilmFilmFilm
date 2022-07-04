@@ -36,6 +36,8 @@
     <string name="run_search_button_text">Найти фильм(ы)</string>
     <string name="help_needs_internet_connection">Для получения информации о фильмах, пожалуйста, установите связь с Интернетом</string>
     <string name="error_needs_internet_connection">Нужно установить связь с Интернетом</string>
+    <string name="no_founded_films">Найти для Вас фильм(ы), к сожалению, не удалось</string>
+    <string name="error_no_founded_films">Не найден(ы) фильм(ы)</string>
 
     <string-array name="film_title_types_list">
         <item>Не выбрано</item>
