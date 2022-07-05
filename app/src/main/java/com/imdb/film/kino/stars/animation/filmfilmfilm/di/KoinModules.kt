@@ -4,6 +4,7 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.DataModelGeneralFilmInfo
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.ResultFilmInfo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.navigator.AppScreens
 import com.imdb.film.kino.stars.animation.filmfilmfilm.navigator.AppScreensImpl
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.Repository
@@ -18,6 +19,8 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.themecolors.ThemeCo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.activity.MainViewModel
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.requestinput.RequestInputFragmentInteractor
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.requestinput.RequestInputFragmentViewModel
+import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultfilm.ResultFilmFragmentInteractor
+import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultfilm.ResultFilmFragmentViewModel
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultpages.ResultPagesFragmentInteractor
 import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultpages.ResultPagesFragmentViewModel
 import org.koin.android.ext.koin.androidContext
@@ -27,7 +30,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 
 val application = module {
     // Удалённый сервер (API)
-    single<Repository<DataModelGeneralFilmInfo>>(named(NAME_REMOTE)) {
+    single<Repository<DataModelGeneralFilmInfo, ResultFilmInfo>>(named(NAME_REMOTE)) {
         RepositoryImplementation(RetrofitImplementation())
     }
     // Локальное сохранение данных
@@ -84,6 +87,20 @@ val screens = module {
         }
         viewModel {
             ResultPagesFragmentViewModel(getScope(RESULT_PAGES_FRAGMENT_SCOPE).get(), get())
+        }
+    }
+
+    // Scope для фрагмента с детальной информацией о выбранном фильме
+    scope(named(RESULT_FILM_FRAGMENT_SCOPE)) {
+        scoped {
+            ResultFilmFragmentInteractor(
+                get(named(NAME_REMOTE)),
+                ResourcesProviderImpl(get()),
+                NetworkStatus(get())
+            )
+        }
+        viewModel {
+            ResultFilmFragmentViewModel(getScope(RESULT_FILM_FRAGMENT_SCOPE).get(), get())
         }
     }
 }

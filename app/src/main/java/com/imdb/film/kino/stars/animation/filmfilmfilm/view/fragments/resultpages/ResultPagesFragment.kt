@@ -16,7 +16,6 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.*
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.imageloader.GlideImageLoaderImpl
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.getKoin
 
 class ResultPagesFragment:
@@ -24,12 +23,13 @@ class ResultPagesFragment:
     /** Задание переменных */ //region
     // ViewModel
     private lateinit var viewModel: ResultPagesFragmentViewModel
-    // ShowRequestInputFragmentScope
+    // ShowResultPagesFragmentScope
     private lateinit var showResultPagesFragmentScope: Scope
     // Класс для сохранения запроса
     private val settings: Settings = getKoin().get()
     // Навигационные кнопки
     private lateinit var backButton: Button
+    private lateinit var searchButton: Button
     // Индикаторы загрузки
     private lateinit var progressBarsList: List<ProgressBar>
     // Контейнеры для картинок
@@ -62,7 +62,7 @@ class ResultPagesFragment:
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // Задание Scope для данного фрагмента
-        showResultPagesFragmentScope = KoinJavaComponent.getKoin().getOrCreateScope(
+        showResultPagesFragmentScope = getKoin().getOrCreateScope(
             RESULT_PAGES_FRAGMENT_SCOPE, named(RESULT_PAGES_FRAGMENT_SCOPE)
         )
     }
@@ -108,7 +108,7 @@ class ResultPagesFragment:
 
     private fun renderData(appState: AppState) {
         when (appState) {
-            is AppState.SuccessGeneralFilmInfo -> {
+            is AppState.SuccessListFilmsInfo -> {
                 appState.generalFilmInfoList?.let { generalFilmInfoList ->
                     showFoundedFilmsList(generalFilmInfoList)
                 }
@@ -127,6 +127,10 @@ class ResultPagesFragment:
         backButton = binding.backButton
         backButton.setOnClickListener {
             viewModel.router.exit()
+        }
+        searchButton = binding.searchButton
+        backButton.setOnClickListener {
+            viewModel.router.navigateTo(viewModel.screens.requestInputScreen())
         }
     }
 
@@ -202,6 +206,8 @@ class ResultPagesFragment:
                     settings.pagingNumber * MAX_NUMBER_FILM_RESULTS_ON_SCREEN + index
                 if (settings.advancedSearchResult.size > resultIndex)
                     settings.idChoosedFilm = "${settings.advancedSearchResult[resultIndex].filmId}"
+                // Загрузка фрагмента с детальной информацией о выбранном фильме
+                viewModel.router.navigateTo(viewModel.screens.resultFilmScreen())
             }
         }
     }
@@ -371,8 +377,9 @@ class ResultPagesFragment:
                 filmsDates[it].text = "${generalFilmInfoList[settings.pagingNumber.
                 getStartElementOnPage() + it].filmData}".deleteBrackets()
                 // Установка рейтингов найденных фильмов
-                val raiting: Int = "${generalFilmInfoList[settings.pagingNumber.
-                getStartElementOnPage() + it].filmRating}".convertToProgress()
+                val raitinString: String? = generalFilmInfoList[settings.pagingNumber.
+                getStartElementOnPage() + it].filmRating
+                val raiting: Int = "${raitinString ?: 0}".convertToProgress()
                 filmsRaitings[it].progress = raiting
                 filmsRaitings[it].setIndicatorColor(raiting.convertToColor())
                 filmsRaitingsNumbers[it].text = "$raiting"

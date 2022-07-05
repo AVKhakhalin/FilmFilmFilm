@@ -72,13 +72,6 @@ class RequestInputFragment:
     private fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-//                Toast.makeText(requireContext(), "Success:\n" +
-//                        "Общее количество найденных фильмов: ${appState.data?.advancedSearchResult?.size}\n" +
-//                        "${appState.data?.advancedSearchResult?.get(0)?.filmId}\n" +
-//                        "${appState.data?.advancedSearchResult?.get(0)?.filmTitle}\n" +
-//                        "${appState.data?.advancedSearchResult?.get(0)?.filmImageLink}\n" +
-//                        "${appState.data?.advancedSearchResult?.get(0)?.filmRating}",
-//                    Toast.LENGTH_SHORT).show()
                 viewModel.router.navigateTo(viewModel.screens.resultPagesScreen())
             }
             is AppState.Loading -> {

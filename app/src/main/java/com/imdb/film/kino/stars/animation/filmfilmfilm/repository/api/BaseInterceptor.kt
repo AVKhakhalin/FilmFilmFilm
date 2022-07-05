@@ -9,7 +9,6 @@ import java.io.IOException
  * (not fully implemented)
  */
 class BaseInterceptor private constructor(): Interceptor {
-
     private var responseCode: Int = 0
 
     @Throws(IOException::class)

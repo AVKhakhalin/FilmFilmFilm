@@ -3,7 +3,9 @@ apply plugin: 'kotlin-android'
 // Подключение плагина для работы с аннотациями (нужно для Room)
 apply plugin: 'kotlin-kapt'
 // Подключение плагина для удобной парселизации
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
+// Подключение парселизации
+apply plugin: 'kotlin-parcelize'
 
 android {
     compileSdk Config.compile_sdk
