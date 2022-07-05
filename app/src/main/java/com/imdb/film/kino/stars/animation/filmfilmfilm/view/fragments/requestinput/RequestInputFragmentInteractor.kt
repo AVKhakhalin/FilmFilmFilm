@@ -5,6 +5,7 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.R
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.base.Interactor
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.AppState
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.DataModelGeneralFilmInfo
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.ResultFilmInfo
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.Repository
 import com.imdb.film.kino.stars.animation.filmfilmfilm.repository.settings.Settings
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.network.NetworkStatus
@@ -12,7 +13,7 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.resources.Resources
 import org.koin.java.KoinJavaComponent.getKoin
 
 class RequestInputFragmentInteractor(
-    private val remoteRepository: Repository<DataModelGeneralFilmInfo>,
+    private val remoteRepository: Repository<DataModelGeneralFilmInfo, ResultFilmInfo>,
     private val resourcesProviderImpl: ResourcesProvider,
     private val networkStatus: NetworkStatus
 ): Interactor<AppState> {

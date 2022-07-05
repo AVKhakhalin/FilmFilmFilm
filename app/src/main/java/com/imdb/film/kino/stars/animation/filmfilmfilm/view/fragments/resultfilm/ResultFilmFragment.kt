@@ -1,0 +1,125 @@
+package com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultfilm
+
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import com.imdb.film.kino.stars.animation.filmfilmfilm.databinding.FragmentResultFilmBinding
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.base.BaseFragment
+import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.AppState
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.RESULT_FILM_FRAGMENT_SCOPE
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.convertToColor
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.convertToProgress
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.getStartElementOnPage
+import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.imageloader.GlideImageLoaderImpl
+import org.koin.core.qualifier.named
+import org.koin.core.scope.Scope
+import org.koin.java.KoinJavaComponent.getKoin
+
+class ResultFilmFragment:
+    BaseFragment<FragmentResultFilmBinding>(FragmentResultFilmBinding::inflate) {
+    /** Задание переменных */ //region
+    // ViewModel
+    private lateinit var viewModel: ResultFilmFragmentViewModel
+    // ShowResultFilmFragmentScope
+    private lateinit var showResultFilmFragmentScope: Scope
+    // Навигационные кнопки
+    private lateinit var backButton: Button
+    private lateinit var searchButton: Button
+    // GlideImageLoaderImpl
+    private val glideImageLoaderImpl: GlideImageLoaderImpl = getKoin().get()
+    // newInstance для данного класса
+    companion object {
+        fun newInstance(): ResultFilmFragment = ResultFilmFragment()
+    }
+    //endregion
+
+    /** Работа со Scope */ //region
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Задание Scope для данного фрагмента
+        showResultFilmFragmentScope = getKoin().getOrCreateScope(
+            RESULT_FILM_FRAGMENT_SCOPE, named(RESULT_FILM_FRAGMENT_SCOPE)
+        )
+    }
+    override fun onDetach() {
+        // Удаление скоупа для данного фрагмента
+        showResultFilmFragmentScope.close()
+        super.onDetach()
+    }
+    //endregion
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Инициализация ViewModel
+        initViewModel()
+        // Инициализация кнопок
+        initButtons()
+    }
+
+    // Инициализация ViewModel
+    private fun initViewModel() {
+        val _viewModel: ResultFilmFragmentViewModel by showResultFilmFragmentScope.inject()
+        viewModel = _viewModel
+        // Подписка на ViewModel
+        viewModel.subscribe().observe(viewLifecycleOwner) { renderData(it) }
+        // Загрузка данных
+        viewModel.getData("", "", "")
+    }
+
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.SuccessResulFilmInfo -> {
+                binding.progressbar.visibility = View.INVISIBLE
+                binding.contentContainer.visibility = View.VISIBLE
+                appState.resultFilmInfo?.let { resultFilmInfo ->
+                    // Установка фоновой картинки фильма
+                    val imageLink: String = "${resultFilmInfo.filmImageLink}"
+                    glideImageLoaderImpl.loadInto(
+                        imageLink, binding.contentHeaderFilmBackgroundImage)
+                    // Установка картинки фильма слева в заголовке
+                    glideImageLoaderImpl.loadInto(
+                        imageLink, binding.contentHeaderFilmImage)
+                    // Установка названия фильма
+                    binding.contentHeaderFilmTitle.text = resultFilmInfo.filmTitle
+                    // Установка даты выхода фильма
+                    binding.contentHeaderFilmReleasedDate.text = resultFilmInfo.releaseDate
+                    // Установка длительности фильма
+                    binding.contentHeaderFilmRuntime.text = resultFilmInfo.filmRunTime
+                    // Установка жанра(ов) фильма
+                    binding.contentHeaderFilmGenres.text = resultFilmInfo.filmGenres
+                    // Установка рейтинга фильма
+                    val raitinString: String? = resultFilmInfo.filmRating
+                    val raiting: Int = "${raitinString ?: 0}".convertToProgress()
+                    binding.contentHeaderFilmRaitingNumber.text = raiting.toString()
+                    binding.contentHeaderFilmRaitingCircle.progress = raiting
+                    binding.contentHeaderFilmRaitingCircle.setIndicatorColor(
+                        raiting.convertToColor())
+                    // Установка описания фильма
+                    binding.contentFooterFilmOverviewText.text = resultFilmInfo.filmOverview
+                }
+            }
+            is AppState.Loading -> {
+                binding.progressbar.visibility = View.VISIBLE
+                binding.contentContainer.visibility = View.INVISIBLE
+            }
+            is AppState.Error -> {
+                Toast.makeText(requireContext(), appState.error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Инициализация кнопок
+    private fun initButtons() {
+        backButton = binding.backButton
+        backButton.setOnClickListener {
+            viewModel.router.exit()
+        }
+        searchButton = binding.searchButton
+        backButton.setOnClickListener {
+            viewModel.router.navigateTo(viewModel.screens.requestInputScreen())
+        }
+    }
+}
