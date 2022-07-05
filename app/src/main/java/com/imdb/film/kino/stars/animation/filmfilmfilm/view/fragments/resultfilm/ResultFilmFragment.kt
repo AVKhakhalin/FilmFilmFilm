@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.imdb.film.kino.stars.animation.filmfilmfilm.R
 import com.imdb.film.kino.stars.animation.filmfilmfilm.databinding.FragmentResultFilmBinding
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.base.BaseFragment
 import com.imdb.film.kino.stars.animation.filmfilmfilm.model.data.AppState
@@ -13,6 +16,7 @@ import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.convertToColor
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.convertToProgress
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.getStartElementOnPage
 import com.imdb.film.kino.stars.animation.filmfilmfilm.utils.imageloader.GlideImageLoaderImpl
+import com.imdb.film.kino.stars.animation.filmfilmfilm.view.fragments.resultfilm.starslist.StarsListRecyclerAdapter
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.java.KoinJavaComponent.getKoin
@@ -99,6 +103,13 @@ class ResultFilmFragment:
                         raiting.convertToColor())
                     // Установка описания фильма
                     binding.contentFooterFilmOverviewText.text = resultFilmInfo.filmOverview
+                    // Установка списка актёров
+                    resultFilmInfo.actorList?.let { actorList ->
+                        val recyclerView: RecyclerView = binding.contentFooterFilmStarsList
+                        recyclerView.layoutManager = LinearLayoutManager(
+                            requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                        recyclerView.adapter = StarsListRecyclerAdapter(actorList)
+                    }
                 }
             }
             is AppState.Loading -> {

@@ -127,4 +127,6 @@
     <dimen name="footer_previous_start_button_margin_start">20dp</dimen>
     <dimen name="back_button_margin_start">40dp</dimen>
     <dimen name="footer_following_end_button_margin_end">20dp</dimen>
+    <dimen name="star_image_width">113dp</dimen>
+    <dimen name="star_image_height">150dp</dimen>
 </resources>

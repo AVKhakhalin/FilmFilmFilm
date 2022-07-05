@@ -284,7 +284,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/content_footer_film_stars_list_margin_start"
                         android:layout_marginEnd="@dimen/content_footer_film_stars_list_margin_end"
-                        android:orientation="horizontal"
+                        tools:listitem="@layout/stars_list_recyclerview_item"
+                        android:scrollbars="horizontal"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/content_footer_film_stars_list_title" />
 
